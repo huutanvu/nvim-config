@@ -17,6 +17,7 @@ call plug#begin("~/.config/nvim/plugged")
     Plug 'tpope/vim-fugitive'
     Plug 'junegunn/gv.vim'
     Plug 'preservim/nerdtree'
+    Plug 'preservim/nerdcommenter'
     Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
     Plug 'Xuyuanp/nerdtree-git-plugin'
     Plug 'ryanoasis/vim-devicons'
@@ -24,6 +25,8 @@ call plug#begin("~/.config/nvim/plugged")
     Plug 'mattn/emmet-vim'
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
     Plug 'AndrewRadev/tagalong.vim'
+    Plug 'sbdchd/neoformat'
+    Plug 'mbbill/undotree'
 call plug#end()
 " Everything after this line will be the config section
 
@@ -37,8 +40,12 @@ set relativenumber
 set scrolloff=8
 set nohlsearch
 set clipboard+=unnamedplus
+set encoding=UTF-8
 syntax enable
-syntax on
+
+if !exists('g:syntax_on')
+    syntax enable
+endif
 filetype plugin on
 set autochdir
 set tabstop=4 softtabstop=4
@@ -63,12 +70,18 @@ set incsearch
 " Set a line at 80 characters (pep8)
 set colorcolumn=80
 highlight ColorColumn ctermbg=0 guibg=lightgrey
+" Disable undodir
+set undodir=~/.config/nvim/undodir
+set undofile " save undotree to a file
 
 
 " Key Map
 " Open GitFiles
 nnoremap <leader>gv :GFiles<CR>
 nnoremap <leader>pv :NERDTreeFind<bar> :vertical resize 45<CR>
+nnoremap <leader>u :UndotreeShow<CR>
+
+" Map show undotree
 nnoremap <leader>u :UndotreeShow<CR>
 
 " Source vim init file
@@ -91,14 +104,14 @@ vnoremap J :m '>+1<CR>gv=gv
 " Open Regex
 nnoremap <leader>ps :Rg<Space>
 " Open Explorer in a resized window sidebar
-nnoremap <A-k><A-e> :wincmd v<bar> :Ex <bar> :vertical resize 30<CR>
+nnoremap <leader>ke :wincmd v<bar> :Ex <bar> :vertical resize 30<CR>
 nnoremap <leader>ghw :h <C-R>=expand("<cword>")<CR><CR>
 
 " Replace the word at cursor with another word
 nnoremap <leader>s :%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>
 
 " Format the whole file
-nnoremap <C-A-l> :Neoformat<CR>
+nnoremap <leader>af :Neoformat<CR>
 
 " Enable autocompletion:
 set wildmode=longest,list,full
@@ -121,8 +134,8 @@ nnoremap <C-l> :wincmd l<CR>
 " Replace all is aliased to S.
 nnoremap S :%s//g<Left><Left>
 " Resize windows
-nnoremap <A-=> :vertical resize +5<CR>
-nnoremap <A--> :vertical resize -5<CR>
+nnoremap <C-=> :vertical resize +5<CR>
+nnoremap <C--> :vertical resize -5<CR>
 nnoremap <leader>rp :resize 100<CR>
 
 " NERDTree
@@ -203,8 +216,8 @@ let g:NERDToggleCheckAllLines = 1
 let g:NERDSpaceDelims = 1
 " " Map ++ to call NERD Commenter and use iTerm key bindings
 " " to bind Ctmd+/ to ++
-vmap ++ <plug>NERDCommenterToggle
-nmap ++ <plug>NERDCommenterToggle
+vmap <C-/> <plug>NERDCommenterToggle
+nmap <C-/> <plug>NERDCommenterToggle
 
 " COC
 " " COC extension

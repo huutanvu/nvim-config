@@ -10,6 +10,7 @@ endif
 call plug#begin("~/.config/nvim/plugged")
   " Plugin Section
     Plug 'morhetz/gruvbox'
+    Plug 'EdenEast/nightfox.nvim'
     Plug 'tpope/vim-surround'
     Plug 'junegunn/fzf', {'do': { -> fzf#install() } }
     Plug 'junegunn/fzf.vim'
@@ -27,11 +28,14 @@ call plug#begin("~/.config/nvim/plugged")
     Plug 'AndrewRadev/tagalong.vim'
     Plug 'sbdchd/neoformat'
     Plug 'mbbill/undotree'
+    Plug 'itchyny/lightline.vim'
+    Plug 'w0rp/ale'
 call plug#end()
 " Everything after this line will be the config section
 
 " Colorscheme
-colorscheme gruvbox
+" colorscheme gruvbox
+colorscheme nightfox
 set background=dark
 
 " Interface setup
@@ -47,10 +51,17 @@ if !exists('g:syntax_on')
     syntax enable
 endif
 filetype plugin on
+
+set foldmethod=syntax
+set foldnestmax=10
+set nofoldenable
+" if we use lightline, we can remove the showmod
+set noshowmode
+
 set autochdir
-set tabstop=4 softtabstop=4
+set tabstop=2 softtabstop=2
 " Make the shift width when press > or < 4
-set shiftwidth=4
+set shiftwidth=2
 " Use space instead of tab
 set expandtab
 " Auto indent
@@ -68,8 +79,8 @@ set undofile
 " Incremental searching, start searching while typing
 set incsearch
 " Set a line at 80 characters (pep8)
-set colorcolumn=80
-highlight ColorColumn ctermbg=0 guibg=lightgrey
+" set colorcolumn=80
+" highlight ColorColumn ctermbg=0 guibg=lightgrey
 " Disable undodir
 set undodir=~/.config/nvim/undodir
 set undofile " save undotree to a file
@@ -144,7 +155,7 @@ let g:NERDTreeMinimalUI = 1 " hide helper
 let g:NERDTreeIgnore = ['^node_modules$'] " ignore node_modules to increase load speed
 let g:NERDTreeStatusline = '' " set to empty to use lightline
 " " Toggle
-noremap <silent> <C-b> :NERDTreeToggle<CR>
+noremap <silent> <leader>e :NERDTreeToggle<CR>
 " " Close window if NERDTree is the last one
 autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
@@ -218,6 +229,14 @@ let g:NERDSpaceDelims = 1
 " " to bind Ctmd+/ to ++
 vmap <C-/> <plug>NERDCommenterToggle
 nmap <C-/> <plug>NERDCommenterToggle
+
+" ALE (Asynchronous Lint Engine)
+let g:ale_fixers = {
+ \ 'javascript': ['eslint']
+ \ }
+let g:ale_sign_error = '❌'
+let g:ale_sign_warning = '⚠️'
+let g:ale_fix_on_save = 1
 
 " COC
 " " COC extension

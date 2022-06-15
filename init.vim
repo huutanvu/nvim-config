@@ -91,6 +91,7 @@ set undofile " save undotree to a file
 nnoremap <leader>gv :GFiles<CR>
 nnoremap <leader>pv :NERDTreeFind<bar> :vertical resize 45<CR>
 nnoremap <leader>u :UndotreeShow<CR>
+nnoremap <leader>F :Ag<CR>
 
 " Map show undotree
 nnoremap <leader>u :UndotreeShow<CR>
@@ -250,6 +251,7 @@ let g:coc_global_extensions = [
       \ 'coc-tsserver',
       \ 'coc-snippets',
       \ 'coc-lua',
+      \ 'coc-angular',
       \ 'coc-python',
       \ 'coc-vetur',
       \ 'coc-stylelint',
@@ -270,6 +272,10 @@ nmap <leader>bb <C-^>
 " " Vue
 command! -nargs=0 Prettier :call CocAction('runCommand', 'prettier.formatFile')
 autocmd BufWritePre *.vue Prettier
+autocmd BufWritePre *.ts Prettier
 
 " " emmet
-let g:user_emmet_leader_key="C-Z"
+let g:user_emmet_leader_key="<C-E>"
+
+" " coc.nvim auto complete
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
